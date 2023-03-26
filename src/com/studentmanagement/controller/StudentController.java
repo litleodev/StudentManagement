@@ -3,178 +3,83 @@ package com.studentmanagement.controller;
 import com.studentmanagement.enums.Gender;
 import com.studentmanagement.enums.Subject;
 import com.studentmanagement.model.StudentCreateRequest;
+import com.studentmanagement.model.StudentDTO;
 import com.studentmanagement.model.StudentUpdateRequest;
+import com.studentmanagement.service.StudentInputService;
 import com.studentmanagement.service.StudentService;
 
-import java.util.Scanner;
+import java.time.format.DateTimeFormatter;
 
 public class StudentController {
-    private final Scanner scanner;
-    private final StudentService service;
+    private final StudentService studentService;
+    private final StudentInputService studentInputService;
 
     public StudentController(){
-        this.scanner = new Scanner(System.in);
-        this.service = StudentService.getstudentService();
+        this.studentService = StudentService.getstudentService();
+        this.studentInputService = new StudentInputService();
     }
 
-    // Set id when updated, deleted student
-    private int setId(){
-        System.out.println("Enter ID of student:");
-        int id;
-        try {
-            id = Integer.parseInt(scanner.nextLine());
-        }
-        catch (NumberFormatException e){
-            id = setId();
-        }
-        if(id < 1)
-            id = setId();
 
-        return id;
-    }
-
-    // Set full name when created, updated student
-    private String setFullName(){
-        String fullName;
-        System.out.println("Enter full name of student:");
-        fullName = scanner.nextLine();
-        if(fullName.isBlank())
-        {
-            fullName = setFullName();
-        }
-        return fullName;
-    }
-    // Set gender when created, updated student
-    private int setGender(){
-        System.out.println(Gender.FEMALE.getGenderValue() + ". Female");
-        System.out.println(Gender.MALE.getGenderValue() + ". Male");
-        System.out.println(Gender.OTHER.getGenderValue() + ". Other");
-        System.out.println("Enter gender of student:");
-        int gender;
-        try {
-            gender = Integer.parseInt(scanner.nextLine());
-        }
-        catch (NumberFormatException e){
-            gender = 0;
-        }
-        if(!Gender.isDefine(gender)){
-            gender = setGender();
-        }
-        return gender;
-    }
-    // Set age when created, updated student
-    private int setAge(){
-        System.out.println("Enter age of student:");
-        int age;
-        try {
-            age = Integer.parseInt(scanner.nextLine());
-        }
-        catch (NumberFormatException e){
-            age = setAge();
-        }
-        if(age < 1)
-            age = setAge();
-
-        return age;
-    }
-    // Set subject scores (Math, Physics, Chemistry) when created, updated student
-    private double setSubjectScores(Subject subject){
-        System.out.println(String.format("Enter %s scores of student:", subject.getSubjectName()));
-        double scores;
-        try {
-            scores = Double.parseDouble(scanner.nextLine());
-        }
-        catch (NumberFormatException e){
-            scores = setSubjectScores(subject);
-        }
-        if(scores < 0 || scores > 10)
-            scores = setSubjectScores(subject);
-
-        return scores;
-    }
-
-    private boolean confirmRemoveStudent(String studentName){
-        System.out.println(String.format("Do you want to remove student: %s!", studentName));
-        System.out.println("Y/N");
-        String selection = scanner.nextLine();
-        boolean result;
-        if(selection.isBlank()){
-            selection = selection.toLowerCase();
-            if(selection == "y")
-                result = true;
-            else if (selection == "n")
-                result = false;
-            else
-                result = confirmRemoveStudent(studentName);
-        }else{
-            result = confirmRemoveStudent(studentName);
-        }
-        return result;
-    }
 
     public void createStudent(){
         var request = new StudentCreateRequest();
 
-        request.setFullName(setFullName());
-        request.setGender(setGender());
-        request.setAge(setAge());
-        request.setMath(setSubjectScores(Subject.MATH));
-        request.setPhysics(setSubjectScores(Subject.PHYSICS));
-        request.setChemistry(setSubjectScores(Subject.CHEMISTRY));
+        request.setFullName(studentInputService.setFullName());
+        request.setGender(studentInputService.setGender());
+        request.setDob(studentInputService.setDob());
+        request.setMath(studentInputService.setSubjectScores(Subject.MATH));
+        request.setPhysics(studentInputService.setSubjectScores(Subject.PHYSICS));
+        request.setChemistry(studentInputService.setSubjectScores(Subject.CHEMISTRY));
 
-        System.out.println(service.createStudent(request));
+        System.out.println(studentService.createStudent(request));
     }
 
     public void updateStudent(){
-        var id = setId();
-        var student = service.getById(id);
+        var id = studentInputService.setId();
+        var student = studentService.getById(id);
         if(student == null)
             System.out.println("This student is not exist!");
         var request = new StudentUpdateRequest(id,
                 student.getFullName(),
                 student.getGender(),
-                student.getAge(),
+                student.getDob(),
                 student.getMath(),
                 student.getPhysics(),
                 student.getChemistry());
-        int select = -1;
-        while (select != 0){
+        int selection = -1;
+        while (selection != 0){
             System.out.println(String.format("Student: %s - ID: %d", student.getFullName(), student.getId()));
             System.out.println(String.format("1. Update full name: old: %s - new: %s", student.getFullName(), request.getFullName()));
             System.out.println(String.format("2. Update gender: old: %s - new: %s", Gender.getGenderName(student.getGender()), Gender.getGenderName(request.getGender())));
-            System.out.println(String.format("3. Update age: old: %s - new: %s", student.getAge(), request.getAge()));
+            System.out.println(String.format("3. Update date of birth: old: %s - new: %s", student.getDob().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")), request.getDob().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))));
             System.out.println(String.format("4. Update Math scores: old: %.2f - new: %.2f", student.getMath(), request.getMath()));
             System.out.println(String.format("5. Update Physics scores: old: %.2f - new: %.2f", student.getPhysics(), request.getPhysics()));
             System.out.println(String.format("6. Update Chemistry scores: old: %.2f - new: %.2f", student.getChemistry(), request.getChemistry()));
             System.out.println("7. Save");
             System.out.println("0. Back");
             System.out.println("Choose service:");
-            try{
-                select = Integer.parseInt(scanner.nextLine());
-            } catch (NumberFormatException e){
-                select = -1;
-            }
-            switch (select){
+            selection = studentInputService.select();
+            switch (selection){
                 case 1:
-                    request.setFullName(setFullName());
+                    request.setFullName(studentInputService.setFullName());
                     break;
                 case 2:
-                    request.setGender(setGender());
+                    request.setGender(studentInputService.setGender());
                     break;
                 case 3:
-                    request.setAge(setAge());
+                    request.setDob(studentInputService.setDob());
                     break;
                 case 4:
-                    request.setMath(setSubjectScores(Subject.MATH));
+                    request.setMath(studentInputService.setSubjectScores(Subject.MATH));
                     break;
                 case 5:
-                    request.setPhysics(setSubjectScores(Subject.PHYSICS));
+                    request.setPhysics(studentInputService.setSubjectScores(Subject.PHYSICS));
                     break;
                 case 6:
-                    request.setChemistry(setSubjectScores(Subject.CHEMISTRY));
+                    request.setChemistry(studentInputService.setSubjectScores(Subject.CHEMISTRY));
                     break;
                 case 7:
-                    System.out.println(service.updateStudent(request));
+                    System.out.println(studentService.updateStudent(request));
                     break;
                 default:
                     break;
@@ -183,13 +88,29 @@ public class StudentController {
     }
 
     public void removeStudent(){
-        var id = setId();
-        var student = service.getById(id);
+        var id = studentInputService.setId();
+        var student = studentService.getById(id);
         if(student == null)
             System.out.println("This student is not exist!");
 
-        var isConfirm = confirmRemoveStudent(student.getFullName());
+        var isConfirm = studentInputService.confirmRemoveStudent(student.getFullName());
         if(isConfirm)
-            System.out.println(service.removeStudent(id));
+            System.out.println(studentService.removeStudent(id));
+    }
+
+    public void searchStudent(){
+        String name = studentInputService.setName();
+        var students = studentService.getByName(name);
+        for (StudentDTO student : students) {
+            System.out.println(String.format("ID: %d - %s", student.getId(), student.getFullName()));
+            System.out.println(String.format("Gender: %s", Gender.getGenderName(student.getGender())));
+            System.out.println(String.format("Age: %d", student.getAge()));
+            System.out.println(String.format("Math: %.2f", student.getMath()));
+            System.out.println(String.format("Physics: %.2f", student.getPhysics()));
+            System.out.println(String.format("Chemistry: %.2f", student.getChemistry()));
+            System.out.println(String.format("Average: %.2f", student.getAverage()));
+            System.out.println(String.format("Classification: %s", student.getClassification()));
+            System.out.println("*".repeat(20));
+        }
     }
 }
