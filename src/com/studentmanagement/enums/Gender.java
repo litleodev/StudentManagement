@@ -1,24 +1,20 @@
 package com.studentmanagement.enums;
 
 public enum Gender {
-    FEMALE, MALE, OTHER;
-    public int getGenderValue() {
-        switch (this) {
-            case FEMALE:
-                return 1;
-            case MALE:
-                return 2;
-            case OTHER:
-                return 3;
-            default:
-                return 0;
-        }
+    FEMALE(1), MALE(2), OTHER(3);
+
+    public final int value;
+
+    private Gender(int value) {
+        this.value = value;
     }
 
     public static boolean isDefine(int enumValue){
-        return enumValue == FEMALE.getGenderValue()
-                || enumValue == MALE.getGenderValue()
-                || enumValue == OTHER.getGenderValue();
+        for (var e : values()){
+            if(e.value == enumValue)
+                return true;
+        }
+        return false;
     }
 
     public static String getGenderName(int enumValue){

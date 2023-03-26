@@ -11,8 +11,8 @@ import java.util.List;
 import java.util.Map;
 
 public class StudentService {
-    private static int id;
-    private static Map<Integer, Student> students;
+    private int id = 1;
+    private Map<Integer, Student> students = new HashMap<>();
     private static StudentService studentService;
 
     private StudentService() {
@@ -20,8 +20,6 @@ public class StudentService {
 
     public static StudentService getstudentService() {
         if (studentService == null) {
-            id = 1;
-            students = new HashMap<>();
             studentService = new StudentService();
         }
         return studentService;
@@ -94,7 +92,7 @@ public class StudentService {
         for (var entry : students.entrySet())
         {
             var student = entry.getValue();
-            if(student.getFullName().toLowerCase().equals(name.toLowerCase())){
+            if(student.getFullName().equalsIgnoreCase(name)){
                 result.add(new StudentDTO(entry.getKey(),
                         student.getFullName(),
                         student.getGender(),

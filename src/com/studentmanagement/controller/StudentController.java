@@ -80,6 +80,7 @@ public class StudentController {
                     break;
                 case 7:
                     System.out.println(studentService.updateStudent(request));
+                    student = studentService.getById(id);
                     break;
                 default:
                     break;

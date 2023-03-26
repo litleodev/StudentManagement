@@ -3,7 +3,7 @@ package com.studentmanagement.service;
 import com.studentmanagement.enums.Gender;
 import com.studentmanagement.enums.Subject;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Scanner;
 
 public class StudentInputService {
@@ -53,9 +53,9 @@ public class StudentInputService {
     }
     // Set gender when created, updated student
     public int setGender(){
-        System.out.println(Gender.FEMALE.getGenderValue() + ". Female");
-        System.out.println(Gender.MALE.getGenderValue() + ". Male");
-        System.out.println(Gender.OTHER.getGenderValue() + ". Other");
+        System.out.println(Gender.FEMALE.value + ". Female");
+        System.out.println(Gender.MALE.value + ". Male");
+        System.out.println(Gender.OTHER.value + ". Other");
         System.out.println("Enter gender:");
         int gender;
         try {
@@ -70,9 +70,9 @@ public class StudentInputService {
         return gender;
     }
     // Set age when created, updated student
-    public LocalDate setDob(){
+    public LocalDateTime setDob(){
         System.out.println("Enter date of birth (day/month/year):");
-        LocalDate dob;
+        LocalDateTime dob;
         String input = scanner.nextLine();
         String[] strInput = input.split("/");
         if(strInput.length != 3)
@@ -81,13 +81,13 @@ public class StudentInputService {
             int day = Integer.parseInt(strInput[0]);
             int month = Integer.parseInt(strInput[1]);
             int year = Integer.parseInt(strInput[2]);
-            dob = LocalDate.of(year, month, day);
+            dob = LocalDateTime.of(year, month, day, 0, 0);
         }
         catch (Exception e){
             dob = setDob();
         }
 
-        if(dob.isAfter(LocalDate.now()))
+        if(dob.isAfter(LocalDateTime.now()))
             dob = setDob();
 
         return dob;
