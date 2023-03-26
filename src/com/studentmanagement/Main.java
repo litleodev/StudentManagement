@@ -32,6 +32,9 @@ public class Main {
                 case 3:
                     controller.removeStudent();
                     break;
+                case 4:
+                    controller.searchStudent();
+                    break;
                 default:
                     break;
             }

@@ -31,7 +31,7 @@ public class StudentService {
         try {
             var student = new Student(request.getFullName(),
                     request.getGender(),
-                    request.getAge(),
+                    request.getDob(),
                     request.getMath(),
                     request.getPhysics(),
                     request.getChemistry());
@@ -51,7 +51,7 @@ public class StudentService {
             return null;
         return new StudentDTO(id, student.getFullName(),
                 student.getGender(),
-                student.getAge(),
+                student.getDob(),
                 student.getMath(),
                 student.getPhysics(),
                 student.getChemistry());
@@ -61,7 +61,7 @@ public class StudentService {
         try {
             var student = new Student(request.getFullName(),
                     request.getGender(),
-                    request.getAge(),
+                    request.getDob(),
                     request.getMath(),
                     request.getPhysics(),
                     request.getChemistry());
@@ -85,5 +85,25 @@ public class StudentService {
         catch (Exception e){
             return "Cannot remove student";
         }
+    }
+
+    public List<StudentDTO> getByName(String name){
+        List<StudentDTO> result = new ArrayList<>();
+        if(name.isBlank())
+            return result;
+        for (var entry : students.entrySet())
+        {
+            var student = entry.getValue();
+            if(student.getFullName().toLowerCase().equals(name.toLowerCase())){
+                result.add(new StudentDTO(entry.getKey(),
+                        student.getFullName(),
+                        student.getGender(),
+                        student.getDob(),
+                        student.getMath(),
+                        student.getPhysics(),
+                        student.getChemistry()));
+            }
+        }
+        return result;
     }
 }
