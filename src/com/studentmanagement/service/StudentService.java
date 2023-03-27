@@ -11,7 +11,7 @@ import java.util.*;
 
 public class StudentService {
     private int id = 1;
-    private Map<Integer, Student> students = new HashMap<>();
+    private final Map<Integer, Student> students = new HashMap<>();
     private static StudentService studentService;
 
     private StudentService() {
@@ -116,9 +116,7 @@ public class StudentService {
                     student.getChemistry()));
         }
         if(decreasing)
-            result.sort((o1, o2) -> {
-                return o2.getId() - o1.getId();
-            });
+            result.sort((o1, o2) -> o2.getId() - o1.getId());
 
         return result;
     }
@@ -129,10 +127,9 @@ public class StudentService {
 
     public List<StudentDTO> orderByAverage(boolean decreasing){
         var result = getStudents();
-        result.sort((o1, o2) -> {
-            return !decreasing ? Double.compare(o1.getAverage(), o2.getAverage())
-                    : Double.compare(o2.getAverage(), o1.getAverage());
-        });
+        result.sort((o1, o2) -> !decreasing
+                ? Double.compare(o1.getAverage(), o2.getAverage())
+                : Double.compare(o2.getAverage(), o1.getAverage()));
 
         return result;
     }
@@ -164,14 +161,14 @@ public class StudentService {
 
     public void displayStudents(List<StudentDTO> students){
         for (var student: students){
-            System.out.println(String.format("ID: %d - %s", student.getId(), student.getFullName()));
-            System.out.println(String.format("Gender: %s", Gender.getGenderName(student.getGender())));
-            System.out.println(String.format("Age: %d", student.getAge()));
-            System.out.println(String.format("Math: %.2f", student.getMath()));
-            System.out.println(String.format("Physics: %.2f", student.getPhysics()));
-            System.out.println(String.format("Chemistry: %.2f", student.getChemistry()));
-            System.out.println(String.format("Average: %.2f", student.getAverage()));
-            System.out.println(String.format("Classification: %s", student.getClassification()));
+            System.out.printf("ID: %d - %s%n", student.getId(), student.getFullName());
+            System.out.printf("Gender: %s%n", Gender.getGenderName(student.getGender()));
+            System.out.printf("Age: %d%n", student.getAge());
+            System.out.printf("Math: %.2f%n", student.getMath());
+            System.out.printf("Physics: %.2f%n", student.getPhysics());
+            System.out.printf("Chemistry: %.2f%n", student.getChemistry());
+            System.out.printf("Average: %.2f%n", student.getAverage());
+            System.out.printf("Classification: %s%n", student.getClassification());
             System.out.println("*".repeat(20));
         }
     }
