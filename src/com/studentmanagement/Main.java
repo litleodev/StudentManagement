@@ -15,6 +15,7 @@ public class Main {
             System.out.println("2. Update information of student");
             System.out.println("3. Remove student");
             System.out.println("4. Search student by name");
+            System.out.println("5. Display students");
             System.out.println("0. Exit");
             System.out.println("Choose service:");
             try{
@@ -34,6 +35,9 @@ public class Main {
                     break;
                 case 4:
                     controller.searchStudent();
+                    break;
+                case 5:
+                    controller.displayStudents();
                     break;
                 default:
                     break;

@@ -9,6 +9,7 @@ import com.studentmanagement.service.StudentInputService;
 import com.studentmanagement.service.StudentService;
 
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
 public class StudentController {
     private final StudentService studentService;
@@ -18,8 +19,6 @@ public class StudentController {
         this.studentService = StudentService.getstudentService();
         this.studentInputService = new StudentInputService();
     }
-
-
 
     public void createStudent(){
         var request = new StudentCreateRequest();
@@ -102,16 +101,40 @@ public class StudentController {
     public void searchStudent(){
         String name = studentInputService.setName();
         var students = studentService.getByName(name);
-        for (StudentDTO student : students) {
-            System.out.println(String.format("ID: %d - %s", student.getId(), student.getFullName()));
-            System.out.println(String.format("Gender: %s", Gender.getGenderName(student.getGender())));
-            System.out.println(String.format("Age: %d", student.getAge()));
-            System.out.println(String.format("Math: %.2f", student.getMath()));
-            System.out.println(String.format("Physics: %.2f", student.getPhysics()));
-            System.out.println(String.format("Chemistry: %.2f", student.getChemistry()));
-            System.out.println(String.format("Average: %.2f", student.getAverage()));
-            System.out.println(String.format("Classification: %s", student.getClassification()));
-            System.out.println("*".repeat(20));
+        if(!students.isEmpty())
+            studentService.displayStudents(students);
+    }
+
+    public void displayStudents(){
+        System.out.println("1. Order by GPA ascending");
+        System.out.println("2. Order by GPA decreasing");
+        System.out.println("3. Order by name ascending");
+        System.out.println("4. Order by name decreasing");
+        System.out.println("5. Order by ID ascending");
+        System.out.println("6. Order by ID decreasing");
+        System.out.println("0. Back");
+        int selection = studentInputService.select();
+        switch (selection){
+            case 1:
+                studentService.displayStudents(studentService.orderByAverage());
+                break;
+            case 2:
+                studentService.displayStudents(studentService.orderByAverage(true));
+                break;
+            case 3:
+                studentService.displayStudents(studentService.orderByName());
+                break;
+            case 4:
+                studentService.displayStudents(studentService.orderByName(true));
+                break;
+            case 5:
+                studentService.displayStudents(studentService.getStudents());
+                break;
+            case 6:
+                studentService.displayStudents(studentService.getStudents(true));
+                break;
+            default:
+                break;
         }
     }
 }
