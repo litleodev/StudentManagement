@@ -4,16 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7fac7470-99f6-4360-9321-4f7f3b3420df" name="Changes" comment="student searching">
-      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+    <list default="true" id="7fac7470-99f6-4360-9321-4f7f3b3420df" name="Changes" comment="modify">
+      <change afterPath="$PROJECT_DIR$/src/com/studentmanagement/common/StringExtensions.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/studentmanagement/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/studentmanagement/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/studentmanagement/controller/StudentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/studentmanagement/controller/StudentController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/studentmanagement/entity/Student.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/studentmanagement/entity/Student.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/studentmanagement/enums/Gender.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/studentmanagement/enums/Gender.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/studentmanagement/model/StudentCreateRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/studentmanagement/model/StudentCreateRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/studentmanagement/model/StudentDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/studentmanagement/model/StudentDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/studentmanagement/model/StudentUpdateRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/studentmanagement/model/StudentUpdateRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/studentmanagement/service/StudentInputService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/studentmanagement/service/StudentInputService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/studentmanagement/service/StudentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/studentmanagement/service/StudentService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -96,6 +91,7 @@
       <workItem from="1679800602161" duration="6121000" />
       <workItem from="1679822612963" duration="2028000" />
       <workItem from="1679847860307" duration="2602000" />
+      <workItem from="1679929817346" duration="2180000" />
     </task>
     <task id="LOCAL-00001" summary="Init">
       <created>1679680861037</created>
